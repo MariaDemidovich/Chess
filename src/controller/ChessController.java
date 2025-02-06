@@ -21,7 +21,9 @@ public class ChessController {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             view.displayBoard(board);
-            System.out.println((isWhiteTurn ? "Белые" : "Чёрные") + ", введите ход (например, e2 e4), или 'exit' для выхода: ");
+            System.out.println((isWhiteTurn ?
+                    "Белые" : "Чёрные") +
+                    ", введите ход (например, e2 e4), или 'exit' для выхода: ");
             String move = scanner.nextLine();
             if (move.equalsIgnoreCase("exit")) break;
             if (processMove(move)) {
