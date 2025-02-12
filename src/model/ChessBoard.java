@@ -46,6 +46,8 @@ public class ChessBoard {
     }
 
     public boolean isKingInCheck(String color) {
+        String kingColor = color.equals("white") ? "Білому" : "Чорному";
+        String kingColor2 = color.equals("white") ? "Білий" : "Чорний";
         int kingX = -1, kingY = -1;
 
         for (int i = 0; i < 8; i++) {
@@ -54,17 +56,21 @@ public class ChessBoard {
                 if (piece instanceof King && piece.getColor().equals(color)) {
                     kingX = i;
                     kingY = j;
-                    break;
                 }
             }
         }
 
+        if (kingX == -1) {
+            System.out.println("Помилка! " + kingColor2 + " король не знайден.");
+            return false;
+        }
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 ChessPiece piece = board[i][j];
                 if (piece != null && !piece.getColor().equals(color)) {
                     if (piece.isValidMove(i, j, kingX, kingY, board)) {
+                        System.out.println(kingColor + " королю шах від " + piece.getClass().getSimpleName() + " на " + i + "," + j);
                         return true;
                     }
                 }
@@ -73,9 +79,10 @@ public class ChessBoard {
         return false;
     }
 
-    public boolean isCheckmate(String color) {
-        if (!isKingInCheck(color)) return false;
 
+    public boolean isCheckmate(String color) {
+        boolean checker = !isKingInCheck(color);
+        if (checker) return false;
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -87,11 +94,9 @@ public class ChessBoard {
 
                                 ChessPiece captured = board[x][y];
                                 movePiece(i, j, x, y);
-                                boolean stillInCheck = isKingInCheck(color);
 
                                 board[i][j] = piece;
                                 board[x][y] = captured;
-                                if (!stillInCheck) return false;
                             }
                         }
                     }

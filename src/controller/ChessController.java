@@ -45,7 +45,7 @@ public class ChessController {
 
         ChessPiece piece = board.getPiece(startX, startY);
         if (piece == null || (isWhiteTurn && !piece.getColor().equals("white"))
-                || (!isWhiteTurn && !piece.getColor().equals("black"))) {
+        || (!isWhiteTurn && !piece.getColor().equals("black"))) {
             return false;
         }
 
@@ -63,7 +63,7 @@ public class ChessController {
 
 
             if (board.isCheckmate(isWhiteTurn ? "black" : "white")) {
-                System.out.println("Мат! Победили " + (isWhiteTurn ? "Белые!" : "Чёрные!"));
+                System.out.println("Мат! Перемогли " + (isWhiteTurn ? "білі!" : "чорні!"));
                 System.exit(0);
             }
 
