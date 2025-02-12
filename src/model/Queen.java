@@ -12,6 +12,6 @@ public class Queen extends ChessPiece {
 
     @Override
     public String toString() {
-        return color.equals("white") ? "♕" : "♛";
+        return color.equals("white") ? "q" : "q";
     }
 }

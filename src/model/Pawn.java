@@ -23,6 +23,6 @@ public class Pawn extends ChessPiece {
 
     @Override
     public String toString() {
-        return color.equals("white") ? "♙" : "♟";
+        return color.equals("white") ? "p" : "p";
     }
 }

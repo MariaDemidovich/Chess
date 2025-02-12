@@ -12,6 +12,6 @@ public class King extends ChessPiece {
 
     @Override
     public String toString() {
-        return color.equals("white") ? "♔" : "♚";
+        return color.equals("white") ? "k" : "k";
     }
 }

@@ -23,7 +23,7 @@ public class ChessController {
             view.displayBoard(board);
             System.out.println((isWhiteTurn ?
                     "Белые" : "Чёрные") +
-                    ", введите ход (например, e2 e4), или 'exit' для выхода: ");
+                    ", введите ход (например, e2 e4), или 'exit' для выхода: "); //державною!!!
             String move = scanner.nextLine();
             if (move.equalsIgnoreCase("exit")) break;
             if (processMove(move)) {
@@ -44,15 +44,33 @@ public class ChessController {
         int endY = parts[1].charAt(0) - 'a';
 
         ChessPiece piece = board.getPiece(startX, startY);
-        if (piece == null || (isWhiteTurn && !piece.getColor().equals("white")) || (!isWhiteTurn && !piece.getColor().equals("black"))) {
+        if (piece == null || (isWhiteTurn && !piece.getColor().equals("white"))
+                || (!isWhiteTurn && !piece.getColor().equals("black"))) {
             return false;
         }
 
         if (piece.isValidMove(startX, startY, endX, endY, board.getBoard())) {
+
+            ChessPiece captured = board.getPiece(endX, endY);
             board.movePiece(startX, startY, endX, endY);
+
+            if (board.isKingInCheck(isWhiteTurn ? "white" : "black")) {
+
+                board.movePiece(endX, endY, startX, startY);
+                board.getBoard()[endX][endY] = captured;
+                return false;
+            }
+
+
+            if (board.isCheckmate(isWhiteTurn ? "black" : "white")) {
+                System.out.println("Мат! Победили " + (isWhiteTurn ? "Белые!" : "Чёрные!"));
+                System.exit(0);
+            }
+
             return true;
         }
 
         return false;
     }
+
 }

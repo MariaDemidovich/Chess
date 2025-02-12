@@ -44,4 +44,60 @@ public class ChessBoard {
         board[endX][endY] = board[startX][startY];
         board[startX][startY] = null;
     }
+
+    public boolean isKingInCheck(String color) {
+        int kingX = -1, kingY = -1;
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                ChessPiece piece = board[i][j];
+                if (piece instanceof King && piece.getColor().equals(color)) {
+                    kingX = i;
+                    kingY = j;
+                    break;
+                }
+            }
+        }
+
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                ChessPiece piece = board[i][j];
+                if (piece != null && !piece.getColor().equals(color)) {
+                    if (piece.isValidMove(i, j, kingX, kingY, board)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean isCheckmate(String color) {
+        if (!isKingInCheck(color)) return false;
+
+
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                ChessPiece piece = board[i][j];
+                if (piece != null && piece.getColor().equals(color)) {
+                    for (int x = 0; x < 8; x++) {
+                        for (int y = 0; y < 8; y++) {
+                            if (piece.isValidMove(i, j, x, y, board)) {
+
+                                ChessPiece captured = board[x][y];
+                                movePiece(i, j, x, y);
+                                boolean stillInCheck = isKingInCheck(color);
+
+                                board[i][j] = piece;
+                                board[x][y] = captured;
+                                if (!stillInCheck) return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
 }
